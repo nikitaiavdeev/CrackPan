@@ -58,10 +58,14 @@ const defaultState = {
     stiffBending: 'None',
     panelBulging: 'None',
     stiffeners: [ Object.assign({}, defaultStiffener) ],
+    allFastSwitch: false,
+    allFastType: 'Manual',
     crackOutput: [],
+    appVersion: 'v0.0.1',
     snackbar: {
       message: '',
       color: '',
+      timeout: 5000,
       show: false
     }
   };
@@ -83,7 +87,6 @@ export default new Vuex.Store({
     },
     updateCurrent(state, payload) {
       Object.assign(state, payload);
-      console.log(state.snackbar);
     },
     setFastener(state, {item, t}){
       Object.assign(item, fastenersDB.find(x => x.fastenerType === t));
@@ -94,7 +97,6 @@ export default new Vuex.Store({
     },
     showMessage (state, payload) {
       Object.assign(state.snackbar, payload);
-      console.log(state.snackbar);
     }
   },
 });

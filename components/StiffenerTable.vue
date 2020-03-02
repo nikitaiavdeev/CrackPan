@@ -1,24 +1,60 @@
 <template>
-  <v-data-table
-    :headers="headers"
-    :items="stiffeners"
-        disable-sort
-        hide-default-footer
-        class="elevation-1"
-  >
-    <template v-slot:top>
-      <v-toolbar flat color="white">
-        <v-toolbar-title>Stiffeners</v-toolbar-title>
-        <v-divider
-          class="mx-4"
-          inset
-          vertical
-        ></v-divider>
-        <v-spacer></v-spacer>
+  <v-card outlined>
+    <v-card-title dense>Stiffeners</v-card-title>
+    <v-card-text>
+      <v-row dense>
+        <v-col>
+          <v-switch
+            v-model="allFastSwitch"
+            label="All fastener data is the same"
+          ></v-switch>
+        </v-col>
+      </v-row>
+      
+      <v-row dense>
+        <v-col>
+          <v-select 
+            v-if="allFastSwitch === true"
+            :items="fastDB" 
+            item-text="fastenerType"
+            v-model="allFastType"
+            label="Fastener type"
+            @change="selectFastType(editedItem)">
+          </v-select>
+        </v-col>
 
+        <v-col>
+          <v-text-field 
+            v-if="allFastSwitch === true"
+            
+            label="Fastener dia"
+            suffix="in"
+            @change="selectFastType(editedItem)">
+          </v-text-field>
+        </v-col>
+
+      </v-row>
+    </v-card-text>
+
+    <v-data-table
+      :headers="headers"
+      :items="stiffeners"
+          disable-sort
+          hide-default-footer
+    >
+      <template v-slot:top>
         <v-dialog v-model="dialog" max-width="1000px">
           <template v-slot:activator="{ on }">
-            <v-btn color="primary" dark class="mb-2" v-on="on">New Striffener</v-btn>
+            <v-btn color="primary"
+              fab
+              small
+              dark
+              absolute
+              top
+              right
+              v-on="on">
+              <v-icon>mdi-plus</v-icon>
+            </v-btn>
           </template>
           <v-card>
             <v-card-title>
@@ -66,29 +102,30 @@
             </v-card-actions>
           </v-card>
         </v-dialog>
-      </v-toolbar>
-    </template>
-    <template v-slot:item.action="{ item }">
-      <v-icon
-        small
-        class="mr-2"
-        @click="editItem(item)"
-      >
-        edit
-      </v-icon>
-      <v-icon
-        small
-        @click="deleteItem(item)"
-      >
-        delete
-      </v-icon>
-    </template>
-  </v-data-table>
+      </template>
+      <template v-slot:item.action="{ item }">
+        <v-icon
+          small
+          class="mr-2"
+          @click="editItem(item)"
+        >
+          edit
+        </v-icon>
+        <v-icon
+          small
+          @click="deleteItem(item)"
+        >
+          delete
+        </v-icon>
+      </template>
+    </v-data-table>
+  </v-card>
 </template>
 
 <script>
   import { mapState } from 'vuex'
   import { fastenersDB } from '../store/store.js'
+  import mapStatesTwoWay from '../store/mapTwoWay'
 
   export default {
     computed:{
@@ -96,6 +133,12 @@
         return this.editedIndex === -1 ? 'New Stiffener' : 'Edit Stiffener'
       },
       ...mapState(['stiffeners']),
+      ...mapStatesTwoWay({
+        allFastSwitch: state => state.allFastSwitch,
+        allFastType: state => state.allFastType
+      }, function (value) {
+        this.$store.commit('updateCurrent', value)
+      })
     },
 
     data: () => ({
@@ -118,11 +161,13 @@
         { text: 'Actions', value: 'action', sortable: false },
       ],
       editedItem: null,
+      defaultItem: null,
       editedIndex: -1,
     }),
 
     created: function() {
       this.editedItem = this.$store.getters.getStiffener('default');
+      this.defaultItem = this.$store.getters.getStiffener('default');
     },
 
     watch: {
@@ -145,6 +190,7 @@
 
       close () {
         this.dialog = false
+        
         setTimeout(() => {
           this.editedItem = Object.assign({}, this.defaultItem)
           this.editedIndex = -1

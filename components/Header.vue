@@ -5,7 +5,7 @@
     dark
     dense
   >
-    <v-toolbar-items class="hidden-sm-and-down">
+    <v-toolbar-items>
       <v-btn text @click="resetState">
         New
       </v-btn>
@@ -33,6 +33,8 @@
     <v-spacer></v-spacer>
     <v-toolbar-title>CrackPan</v-toolbar-title>
     <v-spacer></v-spacer>
+
+    <span>{{ this.$store.state.appVersion }}</span>
   </v-app-bar>
 </template>
 
@@ -48,7 +50,6 @@
       openFile(){
         let file = this.$refs.fileUpload.files[0];
         if(!file){
-          console.log(file);
           return;
         } 
         

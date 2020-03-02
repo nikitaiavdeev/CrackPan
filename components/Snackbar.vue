@@ -1,7 +1,7 @@
 <template>
-    <v-snackbar v-model="show" :top="top" :color="color" :timeout="timeout">
-      {{message}}
-      <v-btn text @click="show = false">
+    <v-snackbar v-model="snackbar.show" :top="top" :color="snackbar.color" :timeout="snackbar.timeout">
+      {{snackbar.message}}
+      <v-btn icon @click="snackbar.show = false">
         <v-icon>close</v-icon>
       </v-btn>
     </v-snackbar>
@@ -13,16 +13,13 @@ import mapStatesTwoWay from '../store/mapTwoWay'
 export default {
     data: () => ({
         top: true,
-        timeout: 16000
     }),
 
     computed: {
       ...mapStatesTwoWay({
-            message: state => state.snackbar.message,
-            color: state => state.snackbar.color,
-            show: state => state.snackbar.show
+            snackbar: state => state.snackbar
         }, function (value) {
-            this.$store.commit('updateCurrent', {snackbar: value})
+            this.$store.commit('updateCurrent', value)
         })
     },
 }
