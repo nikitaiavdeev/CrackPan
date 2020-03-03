@@ -1,11 +1,14 @@
 <template>
-  <v-row>
-    <v-col>
-      <v-text-field 
-        label="Description"
-        v-model="description" 
-      ></v-text-field>
-    
+  <v-card outlined>
+    <v-card-title dense>Panel</v-card-title>
+
+    <v-card-text>
+      <v-row>
+        <v-col>
+          <v-text-field label="Description" v-model="description"></v-text-field>
+        </v-col>
+      </v-row>
+
       <v-row>
         <v-col>
           <v-text-field
@@ -98,9 +101,8 @@
           ></v-select>
         </v-col>
       </v-row>
-
-    </v-col>
-  </v-row>
+    </v-card-text>
+  </v-card>
 </template>
 
 <script>

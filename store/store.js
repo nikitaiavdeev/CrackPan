@@ -29,7 +29,7 @@ export const fastenersDB = [
 const defaultStiffener = {
     dist2Crack: 0,
     isBroken: 'No',
-    area: '',
+    area: 0.0,
     modulus: 10.3,
     oml: 0.0,
     iml: 0.0,
@@ -60,7 +60,8 @@ const defaultState = {
     stiffeners: [ Object.assign({}, defaultStiffener) ],
     allFastSwitch: false,
     allFastener: Object.assign({}, defaultStiffener),
-    crackOutput: [],
+    nCrackOut: 15,
+    crackOut: new Array(15).fill(0),
     appVersion: 'v0.0.1',
     snackbar: {
       message: '',

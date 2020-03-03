@@ -5,11 +5,12 @@
     <v-content>
       <v-container>
         <v-row>
-          <v-col cols="8">
+          <v-col cols="10" class="pa-3 d-flex flex-column">
             <PanelInput />
           </v-col>
 
-          <v-col md4>
+          <v-col cols="2" class="pa-3 d-flex flex-column">
+            <CrackInput />
           </v-col>
         </v-row>
 
@@ -31,6 +32,7 @@
   import Snackbar from './components/Snackbar'
   import Header from './components/Header'
   import PanelInput from './components/PanelInput'
+  import CrackInput from './components/CrackInput'
   import StiffenerTable from './components/StiffenerTable'
 
   export default {
@@ -38,6 +40,7 @@
       Snackbar,
       Header,
       PanelInput,
+      CrackInput,
       StiffenerTable
     }
   }
