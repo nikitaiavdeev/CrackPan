@@ -59,7 +59,7 @@ const defaultState = {
     panelBulging: 'None',
     stiffeners: [ Object.assign({}, defaultStiffener) ],
     allFastSwitch: false,
-    allFastType: 'Manual',
+    allFastener: Object.assign({}, defaultStiffener),
     crackOutput: [],
     appVersion: 'v0.0.1',
     snackbar: {
